@@ -1,0 +1,17 @@
+{
+  "name": "lambda-deploy",
+  "version": "1.0.0",
+  "description": "Deploy lambdas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-cli": "0.0.1",
+    "aws-sdk": "^2.2.32",
+    "es6-promise": "^3.0.2",
+    "lodash": "^4.0.0"
+  }
+}

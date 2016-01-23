@@ -1,0 +1,69 @@
+{
+  "name": "lambda-echo",
+  "regions": [
+    "eu-west-1"
+  ],
+  "cloudFormation": {
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Echo message back",
+    "Outputs": {
+      "FunctionName": { "Value": {"Ref": "LambdaFunction"} }
+    },
+    "Parameters": {
+      "Environment": { "Type": "String" },
+      "Region": { "Type": "String" },
+      "S3Bucket": { "Type": "String" },
+      "S3Key": { "Type": "String" }
+    },
+    "Resources": {
+      "ExecutionRole": {
+        "Type": "AWS::IAM::Role",
+        "Properties": {
+          "AssumeRolePolicyDocument": {
+            "Statement":[{
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": { "Service": "lambda.amazonaws.com" }
+            }],
+            "Version": "2012-10-17"
+          },
+          "Path": "/",
+          "Policies": [{
+            "PolicyName": "LambdaPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": ["lambda:InvokeFunction"],
+                  "Effect": "Allow",
+                  "Resource": ["*"]
+                },
+                {
+                  "Action": ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents" ],
+                  "Effect": "Allow",
+                  "Resource": "*"
+                }
+              ]
+            }
+          }]
+        }
+      },
+      "LambdaFunction": {
+        "Type": "AWS::Lambda::Function",
+        "Description": "A lambda function",
+        "Properties": {
+          "Code": {
+            "S3Bucket": { "Ref": "S3Bucket" },
+            "S3Key": { "Ref": "S3Key" }
+          },
+          "Role": { "Fn::GetAtt": ["ExecutionRole", "Arn"] },
+          "MemorySize": "1024",
+          "Handler": "lambda.Fn",
+          "Runtime": "java8",
+          "Timeout": "120"
+        }
+      }
+    }
+  }
+}
+
