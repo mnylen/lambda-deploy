@@ -1,7 +1,8 @@
 {
   "name": "lambda-echo",
   "regions": [
-    "eu-west-1"
+    "eu-west-1",
+    "us-east-1"
   ],
   "cloudFormation": {
     "AWSTemplateFormatVersion": "2010-09-09",

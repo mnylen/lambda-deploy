@@ -44,10 +44,23 @@ function main(args) {
 }
 
 function deploy(config, zipFile, env, regions) {
-  return deployToRegion(zipFile, regions[0], config, env)
+  return new Promise((resolve, reject) => {
+    function loop(idx) {
+      var region = regions[idx]
+      if (!region) {
+        resolve()
+      } else {
+        deployToRegion(zipFile, region, config, env)
+          .then(_ => loop(idx+1))
+          .catch(err => reject(err))
+      }
+    }
+
+    loop(0)
+  })
 }
 
-function deployToRegion(zipFile, region, config, env, s3Bucket, s3Key) {
+function deployToRegion(zipFile, region, config, env) {
   var s3 = new AWS.S3({ region: region })
   var s3Bucket = config.name + '-' + env + '-' + region
   var s3Key = config.name + '-' + env + '.jar'
