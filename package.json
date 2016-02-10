@@ -1,12 +1,19 @@
 {
-  "name": "lambda-deploy",
+  "name": "lambda-deployer",
   "version": "1.0.0",
   "description": "Deploy lambdas",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "bin": {
+    "lambda-deploy": "./bin/lambda-deploy"
+  },
+  "author": "Mikko Nylén",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mnylen/lambda-deploy"
+  },
   "license": "ISC",
   "dependencies": {
     "aws-cli": "0.0.1",
