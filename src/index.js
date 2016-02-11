@@ -61,9 +61,10 @@ function deploy(config, zipFile, env, regions) {
 }
 
 function deployToRegion(zipFile, region, config, env) {
+  var fileExtension = zipFile.split('.').pop()
   var s3 = new AWS.S3({ region: region })
   var s3Bucket = config.name + '-' + env + '-' + region
-  var s3Key = config.name + '-' + env + '.jar'
+  var s3Key = config.name + '-' + env + '.' + fileExtension
   var s3Data = fs.createReadStream(zipFile)
 
   console.log("Deploying to " + region)
@@ -222,4 +223,3 @@ function logCloudformationEvents(cf, stackName, nextToken) {
 }
 
 main(process.argv)
-
